@@ -2,6 +2,11 @@
 
 @section('content')
 <div class="max-w-xl mx-auto py-8 px-4">
+    @if(auth()->user())
+      <div class="text-center text-lg font-bold mb-4">
+        {{ auth()->user()->telegram_first_name }} {{ auth()->user()->telegram_last_name }}
+      </div>
+    @endif
     <div class="flex items-center justify-between mb-6">
         <div>
             <div class="text-xs text-gray-400">Balance</div>

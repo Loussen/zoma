@@ -38,5 +38,7 @@
             <span class="text-xs">Profil</span>
         </a>
     </nav>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
-</html> 
+</html>

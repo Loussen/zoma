@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('eggs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('bird_id')->constrained('birds')->onDelete('cascade');
+            $table->integer('bird_id');
             $table->string('name');
             $table->string('color'); // Tailwind or hex
             $table->unsignedInteger('value'); // in zz

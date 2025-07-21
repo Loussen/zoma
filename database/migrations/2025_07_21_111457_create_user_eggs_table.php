@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('user_eggs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('egg_id')->constrained('eggs')->onDelete('cascade');
+            $table->integer('user_id');
+            $table->integer('egg_id');
             $table->unsignedInteger('count')->default(0);
             $table->timestamp('last_collected_at')->nullable();
             $table->timestamps();

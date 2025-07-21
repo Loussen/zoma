@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->integer('user_id');
             $table->string('type'); // purchase, collect, sell, etc.
             $table->integer('amount'); // positive or negative, in zz
             $table->string('description')->nullable();

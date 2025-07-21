@@ -23,6 +23,11 @@
             ≈ $0.10</div>
         </div>
     </div>
+    @if(auth()->user())
+      <div class="text-center text-lg font-bold mb-4">
+        {{ auth()->user()->telegram_first_name }} {{ auth()->user()->telegram_last_name }}
+      </div>
+    @endif
     <h2 class="text-lg font-semibold mb-4 text-accent">Market</h2>
     <div class="space-y-6">
         <!-- Chicken -->
