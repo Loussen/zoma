@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -15,7 +15,7 @@ class TelegramAuthController extends Controller
     {
         $data = $request->all();
 
-        $user = User::where('telegram_id', $data['telegram_id'])->first();
+        $user = Customer::where('telegram_id', $data['telegram_id'])->first();
 
         $userData = [
             'telegram_username'   => $data['telegram_username'] ?? $user->telegram_username ?? null,
@@ -25,7 +25,7 @@ class TelegramAuthController extends Controller
         ];
 
         if (!$user) {
-            $user = User::create(array_merge($userData, [
+            $user = Customer::create(array_merge($userData, [
                 'telegram_id' => $data['telegram_id'],
                 'email'       => $data['telegram_id'] . '@telegram.local',
                 'password'    => bcrypt(uniqid()),
@@ -37,6 +37,8 @@ class TelegramAuthController extends Controller
         Auth::login($user);
         // If using Sanctum or Passport, you can return a token:
         $token = $user->createToken('telegram')->plainTextToken;
+
+        Log::info($token);
 
         return response()->json([
             'user' => $user,

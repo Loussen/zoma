@@ -2,16 +2,22 @@
 
 @section('content')
 <div class="max-w-xl mx-auto py-8 px-4">
-    @if(auth()->user())
+    @if($user)
       <div class="text-center text-lg font-bold mb-4">
-        {{ auth()->user()->telegram_first_name }} {{ auth()->user()->telegram_last_name }}
+        {{ $user->telegram_first_name }} {{ $user->telegram_last_name }}
       </div>
     @endif
     <div class="flex items-center justify-between mb-6">
         <div>
             <div class="text-xs text-gray-400">Balance</div>
             <div class="flex items-center gap-2">
-                <span class="text-2xl font-bold text-primary">8,750</span>
+                <span class="text-2xl font-bold text-primary">{{
+    $user && $user->zoma_balance
+        ? (fmod($user->zoma_balance, 1) != 0
+            ? number_format($user->zoma_balance, 2)
+            : number_format($user->zoma_balance, 0))
+        : 0
+}}</span>
                 <span class="inline-block align-middle">
                     <!-- Elegant zz symbol SVG: big Z, smaller Z starting from the middle, shifted up and right -->
                     <svg width="28" height="22" viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="inline-block">
@@ -257,3 +263,41 @@
     </div>
 </div>
 @endsection
+
+{{--@push('scripts')--}}
+{{--    <script>--}}
+{{--        document.addEventListener('DOMContentLoaded', async function () {--}}
+{{--            const tg = window.Telegram.WebApp;--}}
+{{--            tg.ready();--}}
+
+{{--            if (tg.initData) {--}}
+{{--                const payload = {--}}
+{{--                    initData: tg.initData--}}
+{{--                };--}}
+
+{{--                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');--}}
+
+{{--                try {--}}
+{{--                    const response = await fetch('/telegram-auth', {--}}
+{{--                        method: 'POST',--}}
+{{--                        headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken },--}}
+{{--                        body: JSON.stringify(payload)--}}
+{{--                    });--}}
+
+{{--                    if (response.ok) {--}}
+{{--                        const data = await response.json();--}}
+{{--                        console.log("Login success", data);--}}
+{{--                    } else {--}}
+{{--                        const err = await response.json();--}}
+{{--                        console.error(err);--}}
+{{--                        alert('Telegram authentication failed!');--}}
+{{--                    }--}}
+{{--                } catch (e) {--}}
+{{--                    console.error("Fetch error:", e);--}}
+{{--                }--}}
+{{--            } else {--}}
+{{--                alert('Telegram WebApp initData not found!');--}}
+{{--            }--}}
+{{--        });--}}
+{{--    </script>--}}
+{{--@endpush--}}

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
+            $table->integer('customer_id');
             $table->string('type'); // purchase, collect, sell, etc.
             $table->integer('amount'); // positive or negative, in zz
             $table->string('description')->nullable();

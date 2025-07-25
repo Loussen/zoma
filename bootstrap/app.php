@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'telegram.verify' => TelegramVerifyMiddleware::class,
+            'webapp.auth' => \App\Http\Middleware\WebAppAuth::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

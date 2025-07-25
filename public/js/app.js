@@ -7,10 +7,12 @@ document.addEventListener('DOMContentLoaded', async function () {
             initData: tg.initData
         };
 
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
         try {
-            const response = await fetch('/api/telegram-auth', {
+            const response = await fetch('/telegram-auth', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken },
                 body: JSON.stringify(payload)
             });
 

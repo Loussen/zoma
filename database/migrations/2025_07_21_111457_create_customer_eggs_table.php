@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_eggs', function (Blueprint $table) {
+        Schema::create('customer_eggs', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
+            $table->integer('customer_id');
             $table->integer('egg_id');
             $table->unsignedInteger('count')->default(0);
             $table->timestamp('last_collected_at')->nullable();
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_eggs');
+        Schema::dropIfExists('customer_eggs');
     }
 };

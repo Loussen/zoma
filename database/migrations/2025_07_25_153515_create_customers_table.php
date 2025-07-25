@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::create('customers', function (Blueprint $table) {
+            $table->id();
             $table->string('telegram_id')->unique()->nullable();
             $table->string('telegram_username')->nullable();
             $table->string('telegram_first_name')->nullable();
             $table->string('telegram_last_name')->nullable();
+            $table->double('zoma_balance')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -24,8 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['telegram_id', 'telegram_username', 'telegram_first_name', 'telegram_last_name']);
-        });
+        Schema::dropIfExists('customers');
     }
 };
