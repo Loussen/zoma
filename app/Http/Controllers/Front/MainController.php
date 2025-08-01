@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bird;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Customer;
@@ -18,6 +19,7 @@ class MainController extends Controller
 
     public function login(Request $request)
     {
+        return response()->json(['status' => 'ok']);
         $data = $request->validate([
             'initData' => 'required|string',
             'user' => 'required|array',
@@ -47,7 +49,23 @@ class MainController extends Controller
     public function dashboard()
     {
         $user = session('auth_user');
-        return view('dashboard', compact('user'));
+        $birds = $user->birds ?? [];
+        $totalEggs = 0;
+        foreach ($birds as $bird) {
+            $totalEggs += $bird->eggs()->count();
+        }
+        return view('dashboard', compact('user','birds','totalEggs'));
+    }
+
+    public function market()
+    {
+        $user = session('auth_user');
+        $birds = Bird::all();
+        $totalEggs = 0;
+        foreach ($user->birds as $bird) {
+            $totalEggs += $bird->eggs()->count();
+        }
+        return view('market',compact('user','birds','totalEggs'));
     }
 
     public function logout()
@@ -86,10 +104,5 @@ class MainController extends Controller
         } else {
             return false;
         }
-    }
-
-    public function market()
-    {
-        return view('market');
     }
 }

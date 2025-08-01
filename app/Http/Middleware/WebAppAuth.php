@@ -15,9 +15,9 @@ class WebAppAuth
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!session()->has('auth_user')) {
-            return redirect('/webapp');
-        }
+//        if (!session()->has('auth_user')) {
+//            return redirect('/webapp');
+//        }
 
         return $next($request);
     }

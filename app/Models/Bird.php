@@ -6,8 +6,9 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Customer extends Model
+class Bird extends Model
 {
     use CrudTrait;
     use HasFactory;
@@ -18,7 +19,7 @@ class Customer extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'customers';
+    protected $table = 'birds';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
@@ -37,16 +38,14 @@ class Customer extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function birds(): BelongsToMany
+    public function eggs(): HasMany
     {
-        return $this->belongsToMany(Bird::class, 'customer_birds', 'customer_id', 'bird_id')
-            ->withPivot('count') // kullanıcı bu kuştan kaç tane sahip
-            ->with('eggs');
+        return $this->hasMany(Egg::class,'bird_id');
     }
 
-    public function eggs(): BelongsToMany
+    public function customers(): BelongsToMany
     {
-        return $this->belongsToMany(Egg::class, 'customer_eggs', 'customer_id', 'egg_id');
+        return $this->belongsToMany(Customer::class, 'customer_birds', 'bird_id', 'customer_id');
     }
 
     /*
